@@ -1,4 +1,4 @@
-package parseurCsv;
+package openCsvTest;
 
 import java.io.FileReader;
 import java.io.IOException;

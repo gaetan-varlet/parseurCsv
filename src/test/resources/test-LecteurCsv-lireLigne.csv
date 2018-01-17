@@ -1,0 +1,11 @@
+prenom;nom;age;ville
+Gaëtan;Varlet;1988;Gricourt
+Florine;Greciet;1990;Brest
+"Gaëtan";"Varlet";"1988";"Gricourt"
+"Gaë;tan";"Varlet";"1988";"Gricourt"
+"Gaëtan";"Varlet";"12/04/1988";"Gricourt"
+"Gaëtan";"Varlet";"12\\04\\1988";"Gricourt"
+Gaëtan;Varlet;12/04/1988;Gricourt
+;Varlet;12/04/1988;
+"";"Varlet";"12/04/1988";""
+

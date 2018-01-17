@@ -31,10 +31,10 @@ public class ChargementPersonne {
 	public int lireFichierEtInsererDonneesEnBase(String cheminFichier) throws SQLException, IOException{
 		int nombreLignesInserees = 0;
 		LecteurCsv lecteurCsv = new LecteurCsv();
-		CSVReader csvReader = lecteurCsv.monReader(cheminFichier, encodage, separator, skipLines);
+		CSVReader csvReader = lecteurCsv.initialisationReader(cheminFichier, encodage, separator, skipLines);
 		List<Personne> listePersonne = new ArrayList<Personne>();
 		String[] ligne;
-		while((ligne = csvReader.readNext())!=null){
+		while((ligne = lecteurCsv.lireLigne(csvReader))!=null){
 			Personne personne = transformerTableauEnObjet(ligne);
 			listePersonne.add(personne);
 			if(listePersonne.size()==tailleBufferBase){
@@ -48,7 +48,7 @@ public class ChargementPersonne {
 		return nombreLignesInserees;
 	}
 
-	private Personne transformerTableauEnObjet(String[] ligne) {
+	private Personne transformerTableauEnObjet(String[] ligne){
 		Personne personne = new Personne();
 		personne.setPrenom(ligne[0]);
 		personne.setNom(ligne[1]);

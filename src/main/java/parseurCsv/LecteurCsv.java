@@ -13,12 +13,16 @@ import com.opencsv.CSVReaderBuilder;
 
 public class LecteurCsv {
 	
-	public CSVReader monReader(String cheminFichier, Charset charset, char separator, int skipLines) throws IOException{
+	public CSVReader initialisationReader(String cheminFichier, Charset charset, char separator, int skipLines) throws IOException{
 		Reader reader;
 		reader = Files.newBufferedReader(Paths.get(cheminFichier),charset);
 		CSVParser parser = new CSVParserBuilder().withSeparator(separator).build();
 		CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(skipLines).withCSVParser(parser).build();
 		return csvReader;
+	}
+	
+	public String[] lireLigne(CSVReader csvReader) throws IOException{
+		return csvReader.readNext();
 	}
 
 }
