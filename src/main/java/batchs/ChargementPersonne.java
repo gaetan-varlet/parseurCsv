@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.opencsv.CSVReader;
-
 import beans.Personne;
 import dao.PersonneDao;
 import parseurCsv.LecteurCsv;
@@ -16,8 +14,8 @@ import parseurCsv.LecteurCsv;
 public class ChargementPersonne {
 
 	private static final Charset encodage = StandardCharsets.UTF_8;
-	private static final char separator = ';';
 	private static final int skipLines = 1;
+	private static final char separator = ';';
 	private static final int tailleBufferBase = 10000; 
 
 	PersonneDao personneDao = new PersonneDao();
@@ -31,17 +29,19 @@ public class ChargementPersonne {
 	public int lireFichierEtInsererDonneesEnBase(String cheminFichier) throws SQLException, IOException{
 		int nombreLignesInserees = 0;
 		LecteurCsv lecteurCsv = new LecteurCsv();
-		CSVReader csvReader = lecteurCsv.initialisationReader(cheminFichier, encodage, separator, skipLines);
+		lecteurCsv.initialisationReader(cheminFichier, encodage, skipLines, separator);
 		List<Personne> listePersonne = new ArrayList<Personne>();
-		String[] ligne;
-		while((ligne = lecteurCsv.lireLigne(csvReader))!=null){
-			Personne personne = transformerTableauEnObjet(ligne);
+		lecteurCsv.lireLigne();
+		while(lecteurCsv.getLigne()!=null){
+			lecteurCsv.spliterLigne();
+			Personne personne = transformerTableauEnObjet(lecteurCsv.getLigneSplitee());
 			listePersonne.add(personne);
 			if(listePersonne.size()==tailleBufferBase){
 				personneDao.create(listePersonne);
 				nombreLignesInserees=nombreLignesInserees+listePersonne.size();
 				listePersonne.clear();
 			}
+			lecteurCsv.lireLigne();
 		}
 		personneDao.create(listePersonne);
 		nombreLignesInserees=nombreLignesInserees+listePersonne.size();
